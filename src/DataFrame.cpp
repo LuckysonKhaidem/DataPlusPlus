@@ -3,7 +3,14 @@
 using namespace std;
 
 bool DataFrame:: checkString(string& token){
-	return !regex_match(token,regex("[-|+]?[0-9]+([.][0-9]+)?"));
+	try {
+		stod(token);
+	}
+	catch(const invalid_argument& ii) {
+		return true;
+	}
+
+	return false;
 
 }
 
