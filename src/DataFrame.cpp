@@ -57,20 +57,16 @@ int DataFrame::read_csv(string file_name, char delimiter) {
 							columns[column_number].data_type_determined = true;
 							
 					}
-					
-					
-					row[column_number].string_data.assign("NULL");
-					row[column_number].numerical_data = numeric_limits<double>::infinity();
+					row[column_number].type = MISSING;
 					if(!token.empty()) {
-						if(columns[column_number].is_string) row[column_number].string_data.assign(token);					
+						if(columns[column_number].is_string){
+							row[column_number].type = STRING;
+							row[column_nuumber].data.text = (char*) malloc(token.size() + 1);	
+							strcpy(row[column_number].data.text,token.c_str());				
+						}
 						else{ 
-							try{
-								row[column_number].numerical_data = stod(token);
-							}
-							catch(const invalid_argument& ii) {
-								row[column_number].string_data = token;
-							}
-
+							row[column_number].type = NUMBER;
+							row[column_number].data.number = stod(token);
 						}
 					}
 					column_number++;
@@ -88,68 +84,16 @@ int DataFrame::read_csv(string file_name, char delimiter) {
 
 }
 
-void DataFrame::print_column(string column_name) {
-	int j = column_index[column_name];
-	int i;
-	for( i = 0 ; i < n_rows ; i ++) {
-		if(columns[j].is_string) cout << rows[i][j].string_data;
-		else cout << rows[i][j].numerical_data;
-		cout<<"\n";
-	}
-	
-
-}
-void DataFrame::print_row(int start, int end) 
-{
-	int i,j;
-	vector<column>::iterator it;
-	it = columns.begin();
-	while(it != columns.end()) {
-			cout<<it->column_name<<",";
-			it++;		
-	}
-	cout<<"\n";
-
-	for(i = start; i < end;i++){
-		for(j = 0; j < n_columns;j++){
-			if(columns[j].is_string) cout<<rows[i][j].string_data<<",";
-			else  cout<<rows[i][j].numerical_data<<",";
+Series DataFrame::operator[](string column_name) {
+	if(!column_scanned[column_name]) {
+		int j = column_index[column_name];
+		if(!columns[j].is_string) {
+			
 		}
-		cout <<"\n";
 	}
+
 }
 
-cell* DataFrame::get_column(string column_name) {
-		int i;
-		int j = column_index[column_name]; 
-		cell* cells = new cell[n_rows];
-
-		for(i = 0;i<n_rows;i++){
-			cells[i].string_data = rows[i][j].string_data;
-			cells[i].numerical_data = rows[i][j].numerical_data;
-		}
-		return cells;
-	}
-void DataFrame::add_row(vector<cell>& row) {
-	if(row.size() == n_columns){
-		rows.push_back(row);
-		n_rows++;
-	}
-}
-// void DataFrame::add_column(string column_name, cell replicated_entry, bool is_string) {
-// 	column col;
-// 	col.column_name = column_name;
-// 	col.data_type_determined = true;
-// 	col.is_string = is_string;
-// 	column_index[column_name] = n_columns;
-// 	n_columns++;
-
-// 	int i;
-// 	for(i =0 ;i <n_rows;i++)
-
-
-
-// }
 size_t DataFrame::get_ncolumns(){return n_columns;}
 size_t DataFrame::get_nrows(){return n_rows;}
 

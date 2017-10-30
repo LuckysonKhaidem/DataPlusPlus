@@ -4,17 +4,21 @@
 #include <string>
 using namespace std;
 
+enum data_type {NUMBER, STRING, MISSING};
 
 typedef struct  {
-	string string_data;
-	double numerical_data;
+	int type;
+	union {
+		double number;
+		char* text;
+	}data;
 }cell;
 
 typedef struct  {
 	string column_name;
 	bool is_string;
+	int type;
 	bool data_type_determined;
 } column;
-
 
 #endif

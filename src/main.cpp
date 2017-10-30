@@ -1,14 +1,12 @@
 #include <iostream>
-#include "DataFrame.h"
+#include "Series.h"
 using namespace std;
 
 int main() {
-	cout<<"ASDFGH\n";
-	int i = 0;
-	DataFrame* df =  new DataFrame("../dataset/AAPL1.csv",',');  
-	cell* close_price = df->get_column("Open");
-	for(;i< df->get_nrows();i++)
-		cout<<close_price[i].numerical_data<<"\n";
+	double a[] = {4,1,2,3,45,7,8,223,4,6,7,123,446};
+	int n = sizeof(a) / sizeof(a[0]);
+	Series r(a,n);
+	
 
 	return 0;
 }
