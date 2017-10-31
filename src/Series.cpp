@@ -28,30 +28,6 @@ Series::Series(double* arr, int size) {
 	}
 }
 
-// Series::Series(double* arr, int size) {
-// 	this->type = NUMBER;
-// 	this->size = size;
-// 	this->series_name = "NUMBER SERIES";
-// 	for(int i =0 ; i < this->size;i++){
-// 		cell c;
-// 		c.type = NUMBER;
-// 		c.data.number = arr[i];
-// 		this->cells.push_back(c);
-// 	}
-// }
-
-// Series::Series(char* arr[], int size) {
-// 	this->type = STRING;
-// 	this->size = size;
-// 	this->series_name = "STRING SERIES";
-// 	for(int i =0 ; i < this->size;i++){
-// 		cell c;
-// 		c.type = STRING;
-// 		c.data.text = (char*)malloc(sizeof(arr[i]) + 1);
-// 		strcpy(c.data.text,arr[i]);
-// 		this->cells.push_back(c);
-// 	}
-// }
 
 Series::Series(char** arr, int size) {
 	this->type = STRING;
@@ -67,23 +43,21 @@ Series::Series(char** arr, int size) {
 }
 
 
-
-
 Series::~Series(){
 
 }
 
-cell Series::operator[](int index) {
+cell Series::operator[](int index) const {
 	return this->cells[index];
 }
 
-int Series::getType() {
+int Series::getType() const {
 	return this->type;
 }
-int Series::getSize() {
+int Series::getSize() const{
 	return this->size;
 }
-string Series::getName() {
+string Series::getName() const {
 	return this->series_name;
 }
 
@@ -187,13 +161,148 @@ double Series::std() {
 	}
 	return statistics["std"];
 }
-void Series::print() {
-	cout<<"NAME: "<<getName()<<"\n";
-	for(int i =0 ; i < getSize();i++){
-		if(this->cells[i].type == NUMBER) cout<<this->cells[i].data.number;
-		else cout<<this->cells[i].data.text;
-		cout<<"\n";
+
+Series Series::operator+(double a) {
+	if(this->type == NUMBER) {
+		vector<cell> result(this->size);
+		for(int i =0 ; i < this->size; i++) {
+			if(this->cells[i].type == MISSING) 
+				result[i].type = MISSING;
+			else
+				result[i].data.number = this->cells[i].data.number + a;
+		}
+		Series result_series(NUMBER, this->size, "SUMMATION", result);
+		return result_series;
 	}
+	else throw "Cannot add to a string series";
 }
+
+
+Series Series::operator-(double a) {
+	if(this->type == NUMBER) {
+		vector<cell> result(this->size);
+		for(int i =0 ; i < this->size; i++) {
+			if(this->cells[i].type == MISSING) 
+				result[i].type = MISSING;
+			else
+				result[i].data.number = this->cells[i].data.number - a;
+		}
+		Series result_series(NUMBER, this->size, "SUBTRACTION", result);
+		return result_series;
+	}
+	else throw "Cannot subtract from a string series";
+}
+
+Series Series::operator*(double a) {
+	if(this->type == NUMBER) {
+		vector<cell> result(this->size);
+		for(int i =0 ; i < this->size; i++) {
+			if(this->cells[i].type == MISSING) 
+				result[i].type = MISSING;
+			else
+				result[i].data.number = this->cells[i].data.number * a;
+		}
+		Series result_series(NUMBER, this->size, "PRODUCT", result);
+		return result_series;
+	}
+	else throw "Cannot multiply a string series";
+}
+
+Series Series::operator/(double a) {
+	if(this->type == NUMBER) {
+		vector<cell> result(this->size);
+		for(int i =0 ; i < this->size; i++) {
+			if(this->cells[i].type == MISSING) 
+				result[i].type = MISSING;
+			else
+				result[i].data.number = this->cells[i].data.number / a;
+		}
+		Series result_series(NUMBER, this->size, "DIVISION", result);
+		return result_series;
+	}
+	else throw "Cannot divide a string series";
+}
+
+
+ostream& operator<<(ostream& os, const Series& s) {
+	
+	for(int i =0 ; i < s.getSize();i++){
+		if(s[i].type == NUMBER) os<<s[i].data.number;
+		else cout<<s[i].data.text;
+		os<<"\n";
+	}
+
+	return os;
+
+}
+
+
+Series operator+(double a, const Series& s) {
+	if(s.getType() == NUMBER) {
+		vector<cell> result(s.getSize());
+		for(int i =0 ; i < s.getSize(); i++) {
+			if(s[i].type == MISSING) 
+				result[i].type = MISSING;
+			else
+				result[i].data.number = a + s[i].data.number;
+		}
+		Series result_series(NUMBER, s.getSize(), "SUMMATION", result);
+		return result_series;
+	}
+	else throw "Cannot add to a string series";
+
+
+}
+Series operator*(double a, const Series& s) {
+	if(s.getType() == NUMBER) {
+		vector<cell> result(s.getSize());
+		for(int i =0 ; i < s.getSize(); i++) {
+			if(s[i].type == MISSING) 
+				result[i].type = MISSING;
+			else
+				result[i].data.number = a * s[i].data.number;
+		}
+		Series result_series(NUMBER, s.getSize(), "PRODUCT", result);
+		return result_series;
+	}
+	else throw "Cannot add to a string series";
+
+
+}
+Series operator/(double a, const Series& s) {
+	if(s.getType() == NUMBER) {
+		vector<cell> result(s.getSize());
+		for(int i =0 ; i < s.getSize(); i++) {
+			if(s[i].type == MISSING) 
+				result[i].type = MISSING;
+			else
+				result[i].data.number = a / s[i].data.number;
+		}
+		Series result_series(NUMBER, s.getSize(), "DIVISION", result);
+		return result_series;
+	}
+	else throw "Cannot add to a string series";
+
+
+}
+
+Series operator-(double a, const Series& s) {
+	if(s.getType() == NUMBER) {
+		vector<cell> result(s.getSize());
+		for(int i =0 ; i < s.getSize(); i++) {
+			if(s[i].type == MISSING) 
+				result[i].type = MISSING;
+			else
+				result[i].data.number = a - s[i].data.number;
+		}
+		Series result_series(NUMBER, s.getSize(), "SUBTRACTION", result);
+		return result_series;
+	}
+	else throw "Cannot add to a string series";
+
+
+}
+
+
 
 

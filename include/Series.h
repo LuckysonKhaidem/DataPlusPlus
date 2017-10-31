@@ -12,6 +12,7 @@
 #include <math.h>
 
 using namespace std;
+
 class Series {
 	int type;
 	int size;
@@ -30,26 +31,33 @@ public:
 
 	~Series();
 
-	cell operator[](int index);
-	void print();
+	cell operator[](int index) const;
+	
 	Series operator+(Series b);
 	Series operator-(Series b);
 	Series operator*(Series b);
 	Series operator/(Series b);
 
-	// Series operator+(double num);
-	// Series operator-(double num);
-	// Series operator*(double num);
-	// Series operator/(double num);
+	Series operator+(double num);
+	Series operator-(double num);
+	Series operator*(double num);
+	Series operator/(double num);
+
 
 	double mean();
 	double std();
 	double sum();
 
-	// friend ostream& operator<<(ostream& os, const Series& s);
-	int getSize();
-	int getType();
-	string getName();
+	friend ostream& operator<<(ostream& os, const Series& s);
+	int getSize() const;
+	int getType() const;
+	string getName() const;
 };
+
+Series operator+(double a, const Series& s);
+Series operator-(double a, const Series& s);
+Series operator*(double a, const Series& s);
+Series operator/(double a, const Series& s);
+
 
 #endif

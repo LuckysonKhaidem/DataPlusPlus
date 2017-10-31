@@ -11,6 +11,7 @@
 #include <limits>
 #include <regex>
 #include "Primitives.h"
+#include "Series.h"
 
 class DataFrame {
 	vector<column> columns;
@@ -28,6 +29,7 @@ public:
 	DataFrame(string name, char delimiter);
 	// vector<cell>& operator[](int index);
 	Series operator[](string column_name);
+	Series operator[](int column_index);
 	size_t get_ncolumns();
 	size_t get_nrows();
 };
