@@ -88,7 +88,9 @@ Series DataFrame::operator[](string column_name) {
 	if(!column_scanned[column_name]) {
 		int j = column_index[column_name];
 		if(!columns[j].is_string) {
-			
+			double arr[n_rows];
+			for(int i =0 ; i < n_rows;i++)
+				arr[i] = rows[i][j].data.number;
 		}
 	}
 
