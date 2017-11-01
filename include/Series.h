@@ -43,21 +43,25 @@ public:
 	Series operator*(double num);
 	Series operator/(double num);
 
+	Series operator-();
+
+	vector<bool> operator>(double num);
+	vector<bool> operator<(double num);
+	vector<bool> operator>=(double num);
+	vector<bool> operator<=(double num);
+	vector<bool> operator==(double num);
 
 	double mean();
 	double std();
 	double sum();
+
+	Series operator[](vector<bool> mask);
 
 	friend ostream& operator<<(ostream& os, const Series& s);
 	int getSize() const;
 	int getType() const;
 	string getName() const;
 };
-
-Series operator+(double a, const Series& s);
-Series operator-(double a, const Series& s);
-Series operator*(double a, const Series& s);
-Series operator/(double a, const Series& s);
 
 
 #endif

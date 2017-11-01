@@ -67,8 +67,10 @@ Series Series::operator+(Series b) {
 		for(int i =0 ; i < this->size; i++) {
 			if(this->cells[i].type == MISSING || b[i].type == MISSING) 
 				result[i].type = MISSING;
-			else
+			else{
+				result[i].type = NUMBER;
 				result[i].data.number = this->cells[i].data.number + b[i].data.number;
+			}
 		}
 		Series result_series(NUMBER, this->size, "SUMMATION", result);
 		return result_series;
@@ -82,8 +84,10 @@ Series Series::operator-(Series b) {
 		for(int i =0 ; i < this->size; i++) {
 			if(this->cells[i].type == MISSING || b[i].type == MISSING) 
 				result[i].type = MISSING;
-			else
+			else{
+				result[i].type = NUMBER;
 				result[i].data.number = this->cells[i].data.number - b[i].data.number;
+			}
 		}
 		Series result_series(NUMBER, this->size, "SUBTRACTION", result);
 		return result_series;
@@ -97,8 +101,10 @@ Series Series::operator*(Series b) {
 		for(int i =0 ; i < this->size; i++) {
 			if(this->cells[i].type == MISSING || b[i].type == MISSING) 
 				result[i].type = MISSING;
-			else
+			else {
+				result[i].type = NUMBER;
 				result[i].data.number = this->cells[i].data.number * b[i].data.number;
+			}
 
 		}
 		Series result_series(NUMBER, this->size, "PRODUCT", result);
@@ -113,8 +119,10 @@ Series Series::operator/(Series b) {
 		for(int i =0 ; i < this->size; i++) {
 			if(this->cells[i].type == MISSING || b[i].type == MISSING) 
 				result[i].type = MISSING;
-			else
+			else{
+				result[i].type = NUMBER;
 				result[i].data.number = this->cells[i].data.number / b[i].data.number;
+			}
 		}
 		Series result_series(NUMBER, this->size, "DIVISION", result);
 		return result_series;
@@ -168,8 +176,10 @@ Series Series::operator+(double a) {
 		for(int i =0 ; i < this->size; i++) {
 			if(this->cells[i].type == MISSING) 
 				result[i].type = MISSING;
-			else
+			else{
+				result[i].type = NUMBER;
 				result[i].data.number = this->cells[i].data.number + a;
+			}
 		}
 		Series result_series(NUMBER, this->size, "SUMMATION", result);
 		return result_series;
@@ -185,7 +195,10 @@ Series Series::operator-(double a) {
 			if(this->cells[i].type == MISSING) 
 				result[i].type = MISSING;
 			else
+			{
+				result[i].type = NUMBER;
 				result[i].data.number = this->cells[i].data.number - a;
+			}
 		}
 		Series result_series(NUMBER, this->size, "SUBTRACTION", result);
 		return result_series;
@@ -199,8 +212,10 @@ Series Series::operator*(double a) {
 		for(int i =0 ; i < this->size; i++) {
 			if(this->cells[i].type == MISSING) 
 				result[i].type = MISSING;
-			else
+			else{
+				result[i].type = NUMBER;
 				result[i].data.number = this->cells[i].data.number * a;
+			}
 		}
 		Series result_series(NUMBER, this->size, "PRODUCT", result);
 		return result_series;
@@ -214,15 +229,127 @@ Series Series::operator/(double a) {
 		for(int i =0 ; i < this->size; i++) {
 			if(this->cells[i].type == MISSING) 
 				result[i].type = MISSING;
-			else
+			else{
+				result[i].type = NUMBER;
 				result[i].data.number = this->cells[i].data.number / a;
+			}
 		}
 		Series result_series(NUMBER, this->size, "DIVISION", result);
 		return result_series;
 	}
 	else throw "Cannot divide a string series";
 }
+Series Series::operator-() {
+	if(this->type == NUMBER) {
+		vector<cell> result(this->size);
+		for(int i =0 ; i < this->size; i++) {
+			if(this->cells[i].type == MISSING) 
+				result[i].type = MISSING;
+			else{
+				result[i].type = NUMBER;
+				result[i].data.number = -this->cells[i].data.number;
+			}
+		}
+		Series result_series(NUMBER, this->size, "NEGATION", result);
+		return result_series;
+	}
+	else throw "Cannot negate a string series";
 
+}
+
+
+vector<bool> Series::operator>(double num) {
+	if(this->type == NUMBER) {
+		vector<bool> mask(this->size);
+		for(int i = 0; i < this->size ;i++) {
+			if(this->cells[i].type == MISSING)
+				mask[i] = false;
+			else if(this->cells[i].data.number > num)
+				mask[i] = true;
+			else
+				mask[i] = false;
+		}
+		return mask;
+	}else throw "Cannon perform operation on a non number series";
+}
+
+vector<bool> Series::operator<(double num) {
+	if(this->type == NUMBER) {
+		vector<bool> mask(this->size);
+		for(int i = 0; i < this->size ;i++) {
+			if(this->cells[i].type == MISSING)
+				mask[i] = false;
+			else if(this->cells[i].data.number < num)
+				mask[i] = true;
+			else
+				mask[i] = false;
+		}
+		return mask;
+	}else throw "Cannon perform operation on a non number series";
+}
+
+vector<bool> Series::operator>=(double num) {
+	if(this->type == NUMBER) {
+		vector<bool> mask(this->size);
+		for(int i = 0; i < this->size ;i++) {
+			if(this->cells[i].type == MISSING)
+				mask[i] = false;
+			else if(this->cells[i].data.number >= num)
+				mask[i] = true;
+			else
+				mask[i] = false;
+		}
+		return mask;
+	}else throw "Cannon perform operation on a non number series";
+}
+
+vector<bool> Series::operator<=(double num) {
+	if(this->type == NUMBER) {
+		vector<bool> mask(this->size);
+		for(int i = 0; i < this->size ;i++) {
+			if(this->cells[i].type == MISSING)
+				mask[i] = false;
+			else if(this->cells[i].data.number <= num)
+				mask[i] = true;
+			else
+				mask[i] = false;
+		}
+		return mask;
+	}else throw "Cannon perform operation on a non number series";
+}
+vector<bool> Series::operator==(double num) {
+	if(this->type == NUMBER) {
+		vector<bool> mask(this->size);
+		for(int i = 0; i < this->size ;i++) {
+			if(this->cells[i].type == MISSING)
+				mask[i] = false;
+			else if(this->cells[i].data.number == num)
+				mask[i] = true;
+			else
+				mask[i] = false;
+		}
+		return mask;
+	}else throw "Cannon perform operation on a non number series";
+}
+
+
+Series Series::operator[](vector<bool> mask) {
+	vector<cell> cells;
+	for(int i =0 ; i<this->size ;i++) {
+		if(mask[i] == true){
+			cell c;
+			c.type = this->cells[i].type;
+			if(c.type == NUMBER) c.data.number = this->cells[i].data.number;
+			else{
+				c.data.text = (char*)malloc(strlen(this->cells[i].data.text) + 1);
+				strcpy(c.data.text, this->cells[i].data.text);
+			}
+			cells.push_back(c);
+		}
+	}
+	Series result_series(this->type,cells.size(), "MASKED",cells);
+	return result_series;
+}
 
 ostream& operator<<(ostream& os, const Series& s) {
 	
@@ -236,72 +363,6 @@ ostream& operator<<(ostream& os, const Series& s) {
 
 }
 
-
-Series operator+(double a, const Series& s) {
-	if(s.getType() == NUMBER) {
-		vector<cell> result(s.getSize());
-		for(int i =0 ; i < s.getSize(); i++) {
-			if(s[i].type == MISSING) 
-				result[i].type = MISSING;
-			else
-				result[i].data.number = a + s[i].data.number;
-		}
-		Series result_series(NUMBER, s.getSize(), "SUMMATION", result);
-		return result_series;
-	}
-	else throw "Cannot add to a string series";
-
-
-}
-Series operator*(double a, const Series& s) {
-	if(s.getType() == NUMBER) {
-		vector<cell> result(s.getSize());
-		for(int i =0 ; i < s.getSize(); i++) {
-			if(s[i].type == MISSING) 
-				result[i].type = MISSING;
-			else
-				result[i].data.number = a * s[i].data.number;
-		}
-		Series result_series(NUMBER, s.getSize(), "PRODUCT", result);
-		return result_series;
-	}
-	else throw "Cannot add to a string series";
-
-
-}
-Series operator/(double a, const Series& s) {
-	if(s.getType() == NUMBER) {
-		vector<cell> result(s.getSize());
-		for(int i =0 ; i < s.getSize(); i++) {
-			if(s[i].type == MISSING) 
-				result[i].type = MISSING;
-			else
-				result[i].data.number = a / s[i].data.number;
-		}
-		Series result_series(NUMBER, s.getSize(), "DIVISION", result);
-		return result_series;
-	}
-	else throw "Cannot add to a string series";
-
-
-}
-
-Series operator-(double a, const Series& s) {
-	if(s.getType() == NUMBER) {
-		vector<cell> result(s.getSize());
-		for(int i =0 ; i < s.getSize(); i++) {
-			if(s[i].type == MISSING) 
-				result[i].type = MISSING;
-			else
-				result[i].data.number = a - s[i].data.number;
-		}
-		Series result_series(NUMBER, s.getSize(), "SUBTRACTION", result);
-		return result_series;
-	}
-	else throw "Cannot add to a string series";
-
-
-}
 
 
 
