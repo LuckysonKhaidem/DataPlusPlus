@@ -10,6 +10,7 @@
 #include <map>
 #include <string>
 #include <math.h>
+#include <string.h>
 
 using namespace std;
 
@@ -32,7 +33,7 @@ public:
 	~Series();
 
 	cell operator[](int index) const;
-	
+
 	Series operator+(Series b);
 	Series operator-(Series b);
 	Series operator*(Series b);

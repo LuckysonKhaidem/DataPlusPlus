@@ -12,7 +12,7 @@ Series::Series(int type, int size, string series_name, cell* cells) {
 	this->type = type;
 	this->size = size;
 	this->series_name = series_name;
-	
+
 	for(int i = 0; i < size; i++)
 		this->cells.push_back(cells[i]);
 }
@@ -65,7 +65,7 @@ Series Series::operator+(Series b) {
 	if(this->size == b.getSize() && this->type == NUMBER && b.getType() == NUMBER) {
 		vector<cell> result(this->size);
 		for(int i =0 ; i < this->size; i++) {
-			if(this->cells[i].type == MISSING || b[i].type == MISSING) 
+			if(this->cells[i].type == MISSING || b[i].type == MISSING)
 				result[i].type = MISSING;
 			else{
 				result[i].type = NUMBER;
@@ -82,7 +82,7 @@ Series Series::operator-(Series b) {
 	if(this->size == b.getSize() && this->type == NUMBER && b.getType() == NUMBER) {
 		vector<cell> result(this->size);
 		for(int i =0 ; i < this->size; i++) {
-			if(this->cells[i].type == MISSING || b[i].type == MISSING) 
+			if(this->cells[i].type == MISSING || b[i].type == MISSING)
 				result[i].type = MISSING;
 			else{
 				result[i].type = NUMBER;
@@ -99,7 +99,7 @@ Series Series::operator*(Series b) {
 	if(this->size == b.getSize() && this->type == NUMBER && b.getType() == NUMBER) {
 		vector<cell> result(this->size);
 		for(int i =0 ; i < this->size; i++) {
-			if(this->cells[i].type == MISSING || b[i].type == MISSING) 
+			if(this->cells[i].type == MISSING || b[i].type == MISSING)
 				result[i].type = MISSING;
 			else {
 				result[i].type = NUMBER;
@@ -117,7 +117,7 @@ Series Series::operator/(Series b) {
 	if(this->size == b.getSize() && this->type == NUMBER && b.getType() == NUMBER) {
 		vector<cell> result(this->size);
 		for(int i =0 ; i < this->size; i++) {
-			if(this->cells[i].type == MISSING || b[i].type == MISSING) 
+			if(this->cells[i].type == MISSING || b[i].type == MISSING)
 				result[i].type = MISSING;
 			else{
 				result[i].type = NUMBER;
@@ -174,7 +174,7 @@ Series Series::operator+(double a) {
 	if(this->type == NUMBER) {
 		vector<cell> result(this->size);
 		for(int i =0 ; i < this->size; i++) {
-			if(this->cells[i].type == MISSING) 
+			if(this->cells[i].type == MISSING)
 				result[i].type = MISSING;
 			else{
 				result[i].type = NUMBER;
@@ -192,7 +192,7 @@ Series Series::operator-(double a) {
 	if(this->type == NUMBER) {
 		vector<cell> result(this->size);
 		for(int i =0 ; i < this->size; i++) {
-			if(this->cells[i].type == MISSING) 
+			if(this->cells[i].type == MISSING)
 				result[i].type = MISSING;
 			else
 			{
@@ -210,7 +210,7 @@ Series Series::operator*(double a) {
 	if(this->type == NUMBER) {
 		vector<cell> result(this->size);
 		for(int i =0 ; i < this->size; i++) {
-			if(this->cells[i].type == MISSING) 
+			if(this->cells[i].type == MISSING)
 				result[i].type = MISSING;
 			else{
 				result[i].type = NUMBER;
@@ -227,7 +227,7 @@ Series Series::operator/(double a) {
 	if(this->type == NUMBER) {
 		vector<cell> result(this->size);
 		for(int i =0 ; i < this->size; i++) {
-			if(this->cells[i].type == MISSING) 
+			if(this->cells[i].type == MISSING)
 				result[i].type = MISSING;
 			else{
 				result[i].type = NUMBER;
@@ -243,7 +243,7 @@ Series Series::operator-() {
 	if(this->type == NUMBER) {
 		vector<cell> result(this->size);
 		for(int i =0 ; i < this->size; i++) {
-			if(this->cells[i].type == MISSING) 
+			if(this->cells[i].type == MISSING)
 				result[i].type = MISSING;
 			else{
 				result[i].type = NUMBER;
@@ -352,7 +352,7 @@ Series Series::operator[](vector<bool> mask) {
 }
 
 ostream& operator<<(ostream& os, const Series& s) {
-	
+
 	for(int i =0 ; i < s.getSize();i++){
 		if(s[i].type == NUMBER) os<<s[i].data.number;
 		else cout<<s[i].data.text;
@@ -362,8 +362,3 @@ ostream& operator<<(ostream& os, const Series& s) {
 	return os;
 
 }
-
-
-
-
-

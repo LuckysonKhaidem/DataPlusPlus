@@ -2,6 +2,7 @@
 #define PRIMITIVE_H
 
 #include <string>
+#include <stdlib.h>
 using namespace std;
 
 enum data_type {NUMBER, STRING, MISSING};

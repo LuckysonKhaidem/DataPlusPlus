@@ -1,5 +1,6 @@
-#ifndef DATAFRAME_H 
+#ifndef DATAFRAME_H
 #define DATAFRAME_H
+
 
 #include <iostream>
 #include <fstream>
@@ -12,26 +13,30 @@
 #include <regex>
 #include "Primitives.h"
 #include "Series.h"
+using namespace std;
+
 
 class DataFrame {
+
 	vector<column> columns;
 	map<string, int> column_index;
 	vector< vector<cell> > rows;
-	map<string, Series> column_view;
+	vector<Series> column_view;
 	map<string, bool> column_scanned;
 	bool is_read;
-	size_t n_rows;
-	size_t n_columns;
+	int n_rows;
+	int n_columns;
 
 	bool checkString(string& token);
 	int read_csv(string file_name,char delimiter);
+
 public:
 	DataFrame(string name, char delimiter);
 	// vector<cell>& operator[](int index);
 	Series operator[](string column_name);
-	Series operator[](int column_index);
-	size_t get_ncolumns();
-	size_t get_nrows();
+	// Series operator[](int column_index);
+	int get_ncolumns();
+	int get_nrows();
 };
 
 #endif
