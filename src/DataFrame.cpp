@@ -118,5 +118,33 @@ Series DataFrame::operator[](string column_name) {
 
 }
 
-int DataFrame::get_ncolumns(){return n_columns;}
-int DataFrame::get_nrows(){return n_rows;}
+int DataFrame::get_ncolumns() const {return n_columns;}
+int DataFrame::get_nrows() const {return n_rows;}
+
+
+ostream& operator<<(ostream& os, const DataFrame& df) {
+	int i,j;
+	for(i = 0; i < df.get_ncolumns() - 1; i++){
+		std::cout<<df.columns[i].column_name<<",";
+	}
+	std::cout<<df.columns[df.get_ncolumns() - 1].column_name<<"\n";
+	for(i = 0; i < df.get_nrows();i++){
+		for(j = 0;j< df.get_ncolumns() - 1;j++) {
+			switch(df.rows[i][j].type) {
+				case NUMBER: std::cout<<df.rows[i][j].data.number<<",";
+							break;
+				case STRING: std::cout<<df.rows[i][j].data.text<<",";
+							break;
+				default: std::cout<<"NaN,";
+			}
+		}
+		switch(df.rows[i][df.get_ncolumns() - 1].type) {
+				case NUMBER: std::cout<<df.rows[i][j].data.number<<"\n";
+							break;
+				case STRING: std::cout<<df.rows[i][j].data.text<<"\n";
+							break;
+				default: std::cout<<"NaN\n";
+			}
+	}
+	return os;
+}

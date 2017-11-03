@@ -157,6 +157,33 @@ double Series::sum() {
 
 }
 
+double Series::max() {
+	if(this->type == STRING) throw "Cannot find max of string series";
+	if(calculated["max"]) return statistics["max"];
+	double max = DBL_MIN;
+	for(int i = 0 ; i < this->size ;i++) {
+		if(cells[i].type == NUMBER && cells[i].data.number > max) {
+			max = cells[i].data.number;
+		}
+	}
+	statistics["max"] = max;
+	return max;
+}
+
+double Series::min() {
+	if(this->type == STRING) throw "Cannot find min of string series";
+	if(calculated["min"]) return statistics["min"];
+	double min = DBL_MAX;
+	for(int i = 0 ; i < this->size ;i++) {
+		if(cells[i].type == NUMBER && cells[i].data.number < min) {
+			min = cells[i].data.number;
+		}
+	}
+	statistics["min"] = min;
+	return min;
+}
+
+
 double Series::std() {
 	if(this->type == STRING) throw "Cannot find standard deviation of string series";
 	double std = 0;

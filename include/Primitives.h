@@ -13,6 +13,7 @@
 #include <regex>
 #include <string.h>
 #include <cmath>
+#include <float.h>
 
 using namespace std;
 

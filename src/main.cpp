@@ -10,7 +10,7 @@ using namespace mathutil;
 
 int main() {
 	DataFrame df("../dataset/AAPL1.csv",',');
-	cout<<df["Close"].mean();
-	cout<<df["Close"];
+	cout<<df["Close"] / df["Close"].max();
+
 	return 0;
 }

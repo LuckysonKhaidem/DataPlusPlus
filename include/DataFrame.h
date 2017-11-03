@@ -25,8 +25,9 @@ public:
 	// vector<cell>& operator[](int index);
 	Series operator[](string column_name);
 	// Series operator[](int column_index);
-	int get_ncolumns();
-	int get_nrows();
+	friend ostream& operator<<(ostream& os, const DataFrame& df);
+	int get_ncolumns() const;
+	int get_nrows() const;
 };
 
 #endif

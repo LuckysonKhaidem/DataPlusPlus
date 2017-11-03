@@ -47,6 +47,8 @@ public:
 	double mean();
 	double std();
 	double sum();
+	double max();
+	double min();
 
 	Series operator[](vector<bool> mask);
 
