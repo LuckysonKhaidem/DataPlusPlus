@@ -2,20 +2,10 @@
 #define DATAFRAME_H
 
 
-#include <iostream>
-#include <fstream>
-#include <string>
-#include <sstream>
-#include <vector>
-#include <map>
-#include <iterator>
-#include <limits>
-#include <regex>
 #include "Primitives.h"
 #include "Series.h"
+
 using namespace std;
-
-
 class DataFrame {
 
 	vector<column> columns;

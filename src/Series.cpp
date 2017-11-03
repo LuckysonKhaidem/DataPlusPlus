@@ -1,6 +1,9 @@
 #include "Series.h"
 using namespace std;
 
+
+Series::Series() {}
+
 Series::Series(int type, int size, string series_name, vector<cell>& cells) {
 	this->type = type;
 	this->size = size;

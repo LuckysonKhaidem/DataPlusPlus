@@ -31,8 +31,7 @@ int DataFrame::read_csv(string file_name, char delimiter) {
 	ifstream myfile (file_name);
 	string line, token;
 
-	cout<<"READINF FILE NOW\n";
-	cout<<file_name<<"\n";
+
 	if(myfile.is_open()) {
 		while(getline(myfile,line)) {
 
@@ -84,25 +83,38 @@ int DataFrame::read_csv(string file_name, char delimiter) {
 		}
 	}
 	else return 1;
+	column_view.resize(n_columns);
 	cout <<"ROWS: "<<n_rows<<" COLUMNS: "<<n_columns<<"\n";
 	return 0;
 
 }
 
 Series DataFrame::operator[](string column_name) {
-	int j = column_index[column_name];
-	cout<<"COLUMN NUMBER "<<j<<endl;
-	vector<cell> cells(this->n_rows);
-	for(int i=0; i < this->n_rows;i++) {
+	try{
+
+		int j = column_index.at(column_name);
+		if(column_scanned[column_name]) return column_view[j];
+		vector<cell> cells(this->n_rows);
+		for(int i=0; i < this->n_rows;i++) {
 			cells[i].type = rows[i][j].type;
 			if(rows[i][j].type == NUMBER) cells[i].data.number = rows[i][j].data.number;
 			else if(rows[i][j].type == STRING) {
 				cells[i].data.text = (char*)malloc(sizeof(rows[i][j].data.text) + 1);
 				strcpy(cells[i].data.text, rows[i][j].data.text);
 			}
+		}
+		Series* column_series; 
+		column_series = new Series(cells[0].type, this->n_rows, column_name, cells);
+		column_scanned[column_name] = true;
+		column_view[j] = (*column_series);
+		return *column_series;
+
+	}catch (const out_of_range& e ){
+		string error_message = column_name + " column does not exists";
+		cout<<error_message<<endl;
+		throw error_message.c_str();
 	}
-	Series column_series(cells[0].type, this->n_rows, column_name, cells);
-	return column_series;
+	
 
 }
 

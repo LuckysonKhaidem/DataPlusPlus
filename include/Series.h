@@ -2,15 +2,6 @@
 #define SERIES_H
 
 #include "Primitives.h"
-#include <iostream>
-#include <stdio.h>
-#include <vector>
-#include <iterator>
-#include <limits>
-#include <map>
-#include <string>
-#include <math.h>
-#include <string.h>
 
 using namespace std;
 
@@ -23,6 +14,7 @@ class Series {
 	map<string, bool> calculated;
 
 public:
+	Series();
 	Series(int type, int size, string series_name, vector<cell>& cells);
 	Series(int type, int size, string series_name, cell* cells);
 	Series(double* arr, int size);

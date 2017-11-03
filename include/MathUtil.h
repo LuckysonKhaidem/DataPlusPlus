@@ -1,9 +1,6 @@
 #ifndef MATHUTIL_H
 #define MATHUTIL_H
 
-#include <cmath>
-#include <iostream>
-#include <vector>
 #include "Primitives.h"
 #include "Series.h"
 
