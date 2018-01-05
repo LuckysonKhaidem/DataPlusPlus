@@ -13,6 +13,12 @@ Series operator+(double a, const Series& s);
 Series operator-(double a, const Series& s);
 Series operator*(double a, const Series& s);
 Series operator/(double a, const Series& s);
+
+Series operator+(cell a, const Series& s);
+Series operator-(cell a, const Series& s);
+Series operator*(cell a, const Series& s);
+Series operator/(cell a, const Series& s);
+
 vector<bool> operator&&(vector<bool> mask1, vector<bool> mask2);
 vector<bool> operator||(vector<bool> mask1, vector<bool> mask2);
 

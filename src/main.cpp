@@ -10,7 +10,8 @@ using namespace mathutil;
 
 int main() {
 	DataFrame df("../dataset/AAPL1.csv",',');
-	cout<<df["Close"] / df["Close"].max();
-
+	Series s;
+  s = df["Close"][0] / df["Close"];
+	cout << series_pow(series_sin(s),2) + series_pow(series_cos(s),2);
 	return 0;
 }

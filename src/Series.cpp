@@ -269,6 +269,78 @@ Series Series::operator/(double a) {
 	}
 	else throw "Cannot divide a string series";
 }
+
+Series Series::operator+(cell a) {
+	if(this->type == NUMBER && a.type == NUMBER) {
+		vector<cell> result(this->size);
+		for(int i =0 ; i < this->size; i++) {
+			if(this->cells[i].type == MISSING)
+				result[i].type = MISSING;
+			else{
+				result[i].type = NUMBER;
+				result[i].data.number = this->cells[i].data.number + a.data.number;
+			}
+		}
+		Series result_series(NUMBER, this->size, "SUMMATION", result);
+		return result_series;
+	}
+	else throw "Operation not allowed on non numeric data";
+}
+
+Series Series::operator-(cell a) {
+	if(this->type == NUMBER && a.type == NUMBER) {
+		vector<cell> result(this->size);
+		for(int i =0 ; i < this->size; i++) {
+			if(this->cells[i].type == MISSING)
+				result[i].type = MISSING;
+			else{
+				result[i].type = NUMBER;
+				result[i].data.number = this->cells[i].data.number - a.data.number;
+			}
+		}
+		Series result_series(NUMBER, this->size, "DIFFERENCE", result);
+		return result_series;
+	}
+	else throw "Operation not allowed on non numeric data";
+}
+
+Series Series::operator*(cell a) {
+	if(this->type == NUMBER && a.type == NUMBER) {
+		vector<cell> result(this->size);
+		for(int i =0 ; i < this->size; i++) {
+			if(this->cells[i].type == MISSING)
+				result[i].type = MISSING;
+			else{
+				result[i].type = NUMBER;
+				result[i].data.number = this->cells[i].data.number * a.data.number;
+			}
+		}
+		Series result_series(NUMBER, this->size, "PRODUCT", result);
+		return result_series;
+	}
+	else throw "Operation not allowed on non numeric data";
+}
+
+Series Series::operator/(cell a) {
+	if(this->type == NUMBER & a.type == NUMBER) {
+		vector<cell> result(this->size);
+		for(int i =0 ; i < this->size; i++) {
+			if(this->cells[i].type == MISSING)
+				result[i].type = MISSING;
+			else{
+				result[i].type = NUMBER;
+				result[i].data.number = this->cells[i].data.number / a.data.number;
+			}
+		}
+		Series result_series(NUMBER, this->size, "/", result);
+		return result_series;
+	}
+	else throw "Operation not allowed on non numeric data";
+}
+
+
+
+
 Series Series::operator-() {
 	if(this->type == NUMBER) {
 		vector<cell> result(this->size);
@@ -379,6 +451,22 @@ Series Series::operator[](vector<bool> mask) {
 	}
 	Series result_series(this->type,cells.size(), "MASKED",cells);
 	return result_series;
+}
+
+void Series::operator=(const Series& s) {
+	this->type = s.getType();
+	this->size = s.getSize();
+	this->cells.resize(this->size);
+	for(int i = 0;i < this->size; i++) {
+		this->cells[i].type = s[i].type;
+		if(s[i].type == NUMBER)
+			this->cells[i].data.number = s[i].data.number;
+		else if (s[i].type == STRING)  {
+			this->cells[i].data.text = (char*)malloc(strlen(s[i].data.text) + 1);
+			strcpy(this->cells[i].data.text, s[i].data.text );
+		}
+	}
+
 }
 
 ostream& operator<<(ostream& os, const Series& s) {

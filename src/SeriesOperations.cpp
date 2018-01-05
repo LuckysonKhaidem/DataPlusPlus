@@ -4,7 +4,7 @@ Series operator+(double a, const Series& s) {
 	if(s.getType() == NUMBER) {
 		vector<cell> result(s.getSize());
 		for(int i =0 ; i < s.getSize(); i++) {
-			if(s[i].type == MISSING) 
+			if(s[i].type == MISSING)
 				result[i].type = MISSING;
 			else
 				result[i].data.number = a + s[i].data.number;
@@ -20,7 +20,7 @@ Series operator*(double a, const Series& s) {
 	if(s.getType() == NUMBER) {
 		vector<cell> result(s.getSize());
 		for(int i =0 ; i < s.getSize(); i++) {
-			if(s[i].type == MISSING) 
+			if(s[i].type == MISSING)
 				result[i].type = MISSING;
 			else
 				result[i].data.number = a * s[i].data.number;
@@ -36,7 +36,7 @@ Series operator/(double a, const Series& s) {
 	if(s.getType() == NUMBER) {
 		vector<cell> result(s.getSize());
 		for(int i =0 ; i < s.getSize(); i++) {
-			if(s[i].type == MISSING) 
+			if(s[i].type == MISSING)
 				result[i].type = MISSING;
 			else
 				result[i].data.number = a / s[i].data.number;
@@ -53,7 +53,7 @@ Series operator-(double a, const Series& s) {
 	if(s.getType() == NUMBER) {
 		vector<cell> result(s.getSize());
 		for(int i =0 ; i < s.getSize(); i++) {
-			if(s[i].type == MISSING) 
+			if(s[i].type == MISSING)
 				result[i].type = MISSING;
 			else
 				result[i].data.number = a - s[i].data.number;
@@ -63,6 +63,63 @@ Series operator-(double a, const Series& s) {
 	}
 	else throw "Cannot add to a string series";
 
+}
+
+
+
+Series operator+(cell a, const Series& s) {
+	if(s.getType() == NUMBER && a.type == NUMBER) {
+		vector<cell> result(s.getSize());
+		for(int i = 0;i < s.getSize();i++)
+			if(s[i].type == MISSING)
+				result[i].type = MISSING;
+			else
+				result[i].data.number = a.data.number + s[i].data.number;
+		Series result_series(NUMBER, s.getSize(), "ADDITION", result);
+		return result_series;
+	}
+	else throw "Operation not allowed on non numeric data";
+
+}
+Series operator-(cell a, const Series& s) {
+	if(s.getType() == NUMBER && a.type == NUMBER) {
+		vector<cell> result(s.getSize());
+		for(int i = 0;i < s.getSize();i++)
+			if(s[i].type == MISSING)
+				result[i].type = MISSING;
+			else
+				result[i].data.number = a.data.number - s[i].data.number;
+		Series result_series(NUMBER, s.getSize(), "ADDITION", result);
+		return result_series;
+	}
+	else throw "Operation not allowed on non numeric data";
+}
+Series operator*(cell a, const Series& s) {
+	if(s.getType() == NUMBER && a.type == NUMBER) {
+		vector<cell> result(s.getSize());
+		for(int i = 0;i < s.getSize();i++)
+			if(s[i].type == MISSING)
+				result[i].type = MISSING;
+			else
+				result[i].data.number = a.data.number * s[i].data.number;
+		Series result_series(NUMBER, s.getSize(), "ADDITION", result);
+		return result_series;
+	}
+	else throw "Operation not allowed on non numeric data";
+}
+
+Series operator/(cell a, const Series& s) {
+	if(s.getType() == NUMBER && a.type == NUMBER) {
+		vector<cell> result(s.getSize());
+		for(int i = 0;i < s.getSize();i++)
+			if(s[i].type == MISSING)
+				result[i].type = MISSING;
+			else
+				result[i].data.number = a.data.number / s[i].data.number;
+		Series result_series(NUMBER, s.getSize(), "ADDITION", result);
+		return result_series;
+	}
+	else throw "Operation not allowed on non numeric data";
 }
 
 vector<bool> operator&& (vector<bool> m1, vector<bool> m2) {

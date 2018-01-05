@@ -36,7 +36,16 @@ public:
 	Series operator*(double num);
 	Series operator/(double num);
 
+	Series operator+(cell entry);
+	Series operator-(cell entry);
+	Series operator*(cell entry);
+	Series operator/(cell entry);
+
 	Series operator-();
+
+	void operator=(const Series& s); 
+
+
 
 	vector<bool> operator>(double num);
 	vector<bool> operator<(double num);
