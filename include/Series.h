@@ -13,6 +13,8 @@ class Series {
 	map<string, double> statistics;
 	map<string, bool> calculated;
 
+	Series generalArithmaticOperation(Series b, double (*operation)(double, double));
+
 public:
 	Series();
 	Series(int type, int size, string series_name, vector<cell>& cells);
@@ -43,7 +45,7 @@ public:
 
 	Series operator-();
 
-	void operator=(const Series& s); 
+	void operator=(const Series& s);
 
 
 

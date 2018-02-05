@@ -1,7 +1,6 @@
 #include "Series.h"
 using namespace std;
 
-
 Series::Series() {}
 
 Series::Series(int type, int size, string series_name, vector<cell>& cells) {
@@ -64,74 +63,60 @@ string Series::getName() const {
 	return this->series_name;
 }
 
-Series Series::operator+(Series b) {
+Series Series::generalArithmaticOperation(Series b, double (*operation)(double,double)) {
 	if(this->size == b.getSize() && this->type == NUMBER && b.getType() == NUMBER) {
 		vector<cell> result(this->size);
 		for(int i =0 ; i < this->size; i++) {
 			if(this->cells[i].type == MISSING || b[i].type == MISSING)
 				result[i].type = MISSING;
-			else{
+			else
+			{
 				result[i].type = NUMBER;
-				result[i].data.number = this->cells[i].data.number + b[i].data.number;
+				result[i].data.number = operation(this->cells[i].data.number, b[i].data.number);
+
 			}
 		}
-		Series result_series(NUMBER, this->size, "SUMMATION", result);
+		Series result_series(NUMBER, this->size, "RESULT", result);
 		return result_series;
 	}
 	else throw "INVALID ARGUMENT";
+
+}
+
+Series Series::operator+(Series b) {
+	try {
+			return generalArithmaticOperation(b, [](double x, double y ){return x+y; });
+	}catch(const char* exception) {
+		throw exception;
+	}
 }
 
 Series Series::operator-(Series b) {
-	if(this->size == b.getSize() && this->type == NUMBER && b.getType() == NUMBER) {
-		vector<cell> result(this->size);
-		for(int i =0 ; i < this->size; i++) {
-			if(this->cells[i].type == MISSING || b[i].type == MISSING)
-				result[i].type = MISSING;
-			else{
-				result[i].type = NUMBER;
-				result[i].data.number = this->cells[i].data.number - b[i].data.number;
-			}
-		}
-		Series result_series(NUMBER, this->size, "SUBTRACTION", result);
-		return result_series;
+	try {
+			return generalArithmaticOperation(b, [](double x, double y){return x - y;});
+	}catch(const char* exception) {
+		throw exception;
 	}
-	else throw "INVALID ARGUMENT";
+
 }
 
 Series Series::operator*(Series b) {
-	if(this->size == b.getSize() && this->type == NUMBER && b.getType() == NUMBER) {
-		vector<cell> result(this->size);
-		for(int i =0 ; i < this->size; i++) {
-			if(this->cells[i].type == MISSING || b[i].type == MISSING)
-				result[i].type = MISSING;
-			else {
-				result[i].type = NUMBER;
-				result[i].data.number = this->cells[i].data.number * b[i].data.number;
-			}
-
-		}
-		Series result_series(NUMBER, this->size, "PRODUCT", result);
-		return result_series;
+	try {
+			return generalArithmaticOperation(b, [](double x, double y){return x*y;});
+	}catch(const char* exception) {
+		throw exception;
 	}
-	else throw "INVALID ARGUMENT";
+
 }
 
 Series Series::operator/(Series b) {
-	if(this->size == b.getSize() && this->type == NUMBER && b.getType() == NUMBER) {
-		vector<cell> result(this->size);
-		for(int i =0 ; i < this->size; i++) {
-			if(this->cells[i].type == MISSING || b[i].type == MISSING)
-				result[i].type = MISSING;
-			else{
-				result[i].type = NUMBER;
-				result[i].data.number = this->cells[i].data.number / b[i].data.number;
-			}
-		}
-		Series result_series(NUMBER, this->size, "DIVISION", result);
-		return result_series;
 
-	}
-	else throw "INVALID ARGUMENT";
+		try {
+				return generalArithmaticOperation(b, [](double x, double y){return x / y;});
+		}catch(const char* exception) {
+			throw exception;
+		}
+
 }
 
 double Series::mean() {

@@ -11,7 +11,7 @@ using namespace mathutil;
 int main() {
 	DataFrame df("../dataset/AAPL1.csv",',');
 	Series s;
-  s = df["Close"][0] / df["Close"];
-	cout << series_pow(series_sin(s),2) + series_pow(series_cos(s),2);
+  s = df["Close"] / df["Open"];
+	cout << s;
 	return 0;
 }
